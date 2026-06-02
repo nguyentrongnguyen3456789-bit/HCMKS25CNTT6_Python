@@ -1,70 +1,196 @@
+
+shop_name = ""
+product_name = ""
+description = ""
+category = ""
+keywords = []
+voucher_list = []
+
 while True:
-    print("+============================================================+")
-    print("|    HỆ THỐNG QUẢN LÝ NỘI DUNG SẢN PHẨM SHOPPEE              |")
+
+    print("\n+============================================================+")
+    print("|    HỆ THỐNG QUẢN LÝ NỘI DUNG SẢN PHẨM SHOPEE              |")
     print("+============================================================+")
     print("|    1. Nhập dữ liệu sản phẩm và xem báo cáo thống kê        |")
-    print("|    2. Chuẩn hóa tên tên shop                               |")
-    print("|    3. Kiểm tra mã giảm hợp lệ                              |")
-    print("|    4. Tìm kiếm và thay thế từ khóa trong mô tả sản phẩm    |")
-    print("|    5. Thoát chương trình                                   |")
+    print("|    2. Chuẩn hóa tên shop                                  |")
+    print("|    3. Kiểm tra mã giảm giá hợp lệ                         |")
+    print("|    4. Tìm kiếm và thay thế từ khóa trong mô tả sản phẩm   |")
+    print("|    5. Thoát chương trình                                  |")
     print("+============================================================+")
 
-    choise = input("> Mời bạn chọn chức năng (1-5): ")
+    choice = input("> Mời bạn chọn chức năng (1-5): ").strip()
 
-    match choise:
+    if not choice.isdigit():
+        print("Lựa chọn không hợp lệ")
+        continue
+
+
+    if choice not in ["1", "2", "3", "4", "5"]:
+        print("Lựa chọn không hợp lệ")
+        continue
+
+    match choice:
+
+        # CHỨC NĂNG 1
+    
         case "1":
+
             shop_name = input("Nhập tên shop: ")
             product_name = input("Nhập tên sản phẩm: ")
             description = input("Nhập mô tả sản phẩm: ")
             category = input("Nhập danh mục sản phẩm: ")
-            list_search = input("Nhập danh sách từ khóa tìm kiếm: ")
+            keyword_input = input(
+                "Nhập danh sách từ khóa tìm kiếm (cách nhau bởi dấu phẩy): "
+            )
 
-            print(f"Tên shop: {shop_name.strip()}")
-            print(f"Tên sản phẩm: {product_name.strip().title()}")
-            print(f"Mô tả sản phẩm: {description.strip()}")
-            print(f"Độ dài mô tả sản phẩm {len(description)}")
-            print(f"Danh mục sản phẩm: {category.strip().lower()}")
-            print(f"Danh sách từ khóa: {list_search.strip()}")
-            count_keyword = list_search.count(",")
-            print(f"Số lượng từ khóa tìm kiếm: {count_keyword + 1}")
-            print(f"Mô tả được chuyển toàn bộ sang chữ thường: {description.lower()}")
-            print(f"Mô tả được chuyển toàn bộ sang chữ hoa: {description.upper()}")
+            
+            if shop_name.strip() == "":
+                print("Tên shop không được bỏ trống")
+                continue
 
+           
+            if description.strip() == "":
+                print("Mô tả sản phẩm không được rỗng")
+                continue
+
+            
+            shop_name = shop_name.strip()
+            product_name = product_name.strip().title()
+            description = description.strip()
+
+            category = " ".join(category.split()).lower()
+
+            keywords = []
+            for word in keyword_input.split(","):
+                word = word.strip()
+
+                if word != "":
+                    keywords.append(word)
+
+            
+            print("\n===== BÁO CÁO THỐNG KÊ =====")
+
+            print(f"Tên shop: {shop_name}")
+            print(f"Tên sản phẩm: {product_name}")
+            print(f"Mô tả sản phẩm: {description}")
+
+            print(f"Độ dài mô tả sản phẩm: {len(description)}")
+
+            print(f"Danh mục sản phẩm: {category}")
+
+            print(
+                f"Danh sách từ khóa: {', '.join(keywords)}"
+            )
+
+            print(
+                f"Số lượng từ khóa tìm kiếm: {len(keywords)}"
+            )
+
+            print(
+                f"Mô tả chuyển sang chữ thường: {description.lower()}"
+            )
+
+            print(
+                f"Mô tả chuyển sang chữ hoa: {description.upper()}"
+            )
+
+        # CHỨC NĂNG 2
+ 
         case "2":
+
+            if shop_name == "":
+                print("Vui lòng nhập dữ liệu sản phẩm ở chức năng 1 trước!")
+                continue
+
+            print("\n===== CHUẨN HÓA TÊN SHOP =====")
+
             print(f"Tên shop ban đầu: {shop_name}")
-            new_shop = shop_name.strip().lower().replace(" ", "-")
-            if(not "shop-" in new_shop):
-                print(f"Tên shop sau chuẩn hóa: {"shop-" + new_shop}")
-            else:
-                print(f"Tên shop sau chuẩn hóa: {new_shop}")
+
+            normalized_shop = "-".join(
+                shop_name.strip().lower().split()
+            )
+
+            if not normalized_shop.startswith("shop-"):
+                normalized_shop = "shop-" + normalized_shop
+
+            print(f"Tên shop sau chuẩn hóa: {normalized_shop}")
+
+
+        # CHỨC NĂNG 3
+
         case "3":
-            voucher = input("Nhập mã giảm giá: ")
-            list_hashtag = "#SALE2026, #SALE305"
-            if(voucher == ""):
+
+            if shop_name == "":
+                print("Vui lòng nhập dữ liệu sản phẩm ở chức năng 1 trước!")
+                continue
+
+            voucher = input("Nhập mã giảm giá: ").strip()
+
+            if voucher == "":
                 print("Mã giảm giá không được rỗng")
-            elif(" " in voucher):
-                print("Mã giảm giả không được chứa khoảng trắng")
-            elif(len(voucher) > 12 or len(voucher) < 6):
+
+            elif " " in voucher:
+                print("Mã giảm giá không được chứa khoảng trắng")
+
+            elif len(voucher) < 6 or len(voucher) > 12:
                 print("Mã giảm giá phải có độ dài từ 6 đến 12 ký tự")
-            elif(not voucher.isupper()):
-                print("Mã giảm giá phải viết hoa toàn bộ")
-            elif(not voucher.isalnum()):
-                print("Mã giảm giảm chỉ được chứa chữ cái và số")
-            elif(not voucher.startswith("SALE")):
-                print("Mã giảm giả phải bắt đầu bằng chuối SALE")
+
+            elif not voucher.isupper():
+                print("Mã giảm giá phải được viết hoa toàn bộ")
+
+            elif not voucher.isalnum():
+                print("Mã giảm giá chỉ được chứa chữ cái và chữ số")
+
+            elif not voucher.startswith("SALE"):
+                print("Mã giảm giá phải bắt đầu bằng chuỗi SALE")
+
             else:
                 print("Mã giảm giá hợp lệ")
-                print(f"Danh sách hashtag hiện tại: {list_search + "#" + voucher}")
+
+                voucher_list.append(voucher)
+
+                print(
+                    f"Danh sách mã giảm giá hiện tại: {', '.join(voucher_list)}"
+                )
+
+        # CHỨC NĂNG 4
         case "4":
-            find_word = input("Nhập vào từ khóa cần tìm: ")
-            replace_word = input("Nhập vào từ khóa thay thế: ")
-            count_word = description.count(find_word)
-            if(find_word in description):
-                description = description.replace(find_word, replace_word)
-            print(f"Mô tả sau khi thay thế: {description}")
-            print(f"Số lượng từ tìm được là: {count_word}")
+
+            if description == "":
+                print("Vui lòng nhập dữ liệu sản phẩm ở chức năng 1 trước!")
+                continue
+
+            find_word = input("Nhập từ khóa cần tìm: ").strip()
+
+            if find_word == "":
+                print("Từ khóa cần tìm không được rỗng")
+                continue
+
+            replace_word = input("Nhập từ khóa thay thế: ")
+
+            if find_word in description:
+
+                count_word = description.count(find_word)
+
+                description = description.replace(
+                    find_word,
+                    replace_word
+                )
+
+                print(
+                    f"Số lần xuất hiện của từ khóa: {count_word}"
+                )
+
+                print("Mô tả sau khi thay thế:")
+                print(description)
+
+            else:
+                print(
+                    "Không tìm thấy từ khóa trong mô tả sản phẩm"
+                )
+
+        # CHỨC NĂNG 5
         case "5":
-            print("Đã thoát khỏi chương trình!")
+
+            print("Thoát chương trình")
             break
-        case _:
-            print("Lựa chọn không hợp lệ!")
