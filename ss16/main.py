@@ -36,31 +36,48 @@
 # Chức năng 3: Tìm kiếm sinh viên theo tên (tìm tương đối)
 # Lưu ý: tất cả đều dùng hàm để gọi vào trong mỗi case
 
-number : int=7
-def get_validate_input(prompt: str , input_type: str = "str"):
+
+def get_validate_input(prompt: str, input_type: str = "str"):
     while True:
+    # "7.5"
         user_input = input(prompt)
         if not user_input:
             print("Dữ liệu không được để trống! Nhập lại")
             continue
+
         if input_type == "int":
             # if user_input.isdigit():
             #     value = int(user_input)
             #     return value
             # else:
-            #     print("Dữ liệu không được chứa kí tự")
+            #     print("Dữ liệu không được chưa kí tự! Nhập lại")
             #     continue
             try:
+                # -123 "7.5"
                 value = int(user_input)
-                if value <=0:
-                    print("Dữ liệu không được nhỏ hơn 0! nhập lại")
+                if value <= 0:
+                    print("Dữ liệu không được là số âm! Nhập lại")
                     continue
                 return value
             except ValueError:
                 print("Dữ liệu không hợp lệ! Nhập lại")
                 continue
+
+        # if input_type == "float":
+        #     try:
+        #         # -123 "7.5"
+        #         value = float(user_input)
+        #         if value <= 0:
+        #             print("Dữ liệu không được là số âm! Nhập lại")
+        #             continue
+        #         return value
+        #     except ValueError:
+        #         print("Dữ liệu không hợp lệ! Nhập lại")
+        #         continue
         return user_input
-# id = get_validate_input("Hãy nhập name:","str")
+    
+
+# id = get_validate_input("Hãy nhập id: ", "int")
 
 
 
@@ -75,26 +92,52 @@ def menu():
     print("=" * 60)
 
 def input_std(students):
-    # global students; 
     num_std = get_validate_input("Hãy nhập số lượng sinh viên: ", "int")
     for i in range(num_std):
         print(f"Nhập sinh viên thứ {i + 1}")
-        id_std = input("Nhập vào id sinh viên: ")
-        name_std = input("Nhập vào tên sinh viên: ")
+        while True:
+            id_std = get_validate_input("Nhập vào id sinh viên: ")
+            # flag = False
+            for item in students:
+                if id_std.lower() == item.get("id").lower():
+                    print("Id không được trùng! Nhập lại")
+                    # flag = True
+                    break
+            else: 
+            # if flag == False:
+                break
+        name_std = get_validate_input("Nhập vào tên sinh viên: ")
         new_std = { "id": id_std, "name": name_std }
         students.append(new_std)
-
+        
+        
 def show_std(students):
-    # global students
-    print("Danh sách sinh viên!")
-    for index, value in enumerate(students):
-        print(f"Sinh viên thứ {index + 1}: Id: {value.get("id")} - Tên: {value.get("name")}")
+    if not students:
+        print("Danh sách rỗng")
+        return
+    print(f"{"STT":<3} | {"ID":<3} | {"Tên":<20}")
+    for index, value in enumerate(students, start=1):
+        print(f"{index:<3} | {value.get('id'):<3} | {value.get('name', 'Không có dữ liệu'):<20}")
 
-def search_std():
-    print()
+
+def search_std(students):
+    if not students:
+        print("Danh sách rỗng")
+        return
+    found_name = get_validate_input("Nhập vào tên cần tìm: ")
+    find_student = []
+    for item in students:
+        if found_name.lower() in item.get("name").lower():
+            new_std = {"id": item.get("id"), "name": item.get("name")}
+            find_student.append(new_std)
+
+    show_std(find_student)
 
 def main():
-    students = []; 
+    students = [
+        { "id": "S001", "name": "Khoa khấu khỉnh "},
+        { "id": "S002", "name": "Khoa khờ khỉnh "}
+    ]; 
     while True:
         menu()
         choice = input("Nhập lựa chọn của bạn: ")
@@ -104,7 +147,7 @@ def main():
             case "2":
                 show_std(students)
             case "3":
-                print()
+                search_std(students)
             case "4":
                 print("Thoát chương trình!")
                 break
@@ -112,4 +155,3 @@ def main():
                 print("Lựa chọn không hợp lệ!")
 
 main()
-
