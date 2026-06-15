@@ -1,0 +1,12 @@
+2026-06-15 16:04:16,890 - INFO - Balance checked. Current Balance: 0
+2026-06-15 16:04:23,487 - INFO - Deposit successful: +5000000.0 VND. Current Balance: 5000000.0
+2026-06-15 16:04:23,487 - INFO - Balance checked. Current Balance: 5000000.0
+2026-06-15 16:04:36,349 - ERROR - InsufficientBalanceError: Attempted to transfer 70000000.0 VND with balance 5000000.0 VND.
+2026-06-15 16:04:53,605 - ERROR - ValueError: Invalid numeric input.
+2026-06-15 16:05:00,769 - ERROR - InsufficientBalanceError: Attempted to transfer 98765432.0 VND with balance 5000000.0 VND.
+2026-06-15 16:05:11,168 - ERROR - ValueError: Invalid numeric input.
+2026-06-15 16:05:46,054 - ERROR - ValueError: Invalid numeric input.
+2026-06-15 16:06:26,237 - INFO - Balance checked. Current Balance: 5000000.0
+2026-06-15 16:06:38,270 - INFO - Transfer successful: -250.0 VND to 0987654321. Current Balance: 4999750.0
+2026-06-15 16:06:38,271 - INFO - Balance checked. Current Balance: 4999750.0
+2026-06-15 16:06:46,245 - INFO - System shutdown
