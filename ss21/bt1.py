@@ -8,17 +8,26 @@ logging.basicConfig(
 
 
 class InvalidAmountError(Exception):
+    """Raised when the transaction amount is invalid (<= 0)."""
     pass
 
 class InsufficientBalanceError(Exception):
+    """Raised when the wallet balance is insufficient for transfer."""
     pass
 
 
 class Wallet:
+    """Ví MoMo giả lập với các chức năng nạp tiền, chuyển tiền và xem số dư."""
+
     def __init__(self):
+        """Khởi tạo ví với số dư mặc định = 0."""
         self.balance = 0
 
-    def deposit(self, amount):
+    def deposit(self, amount: float):
+        """
+        Nạp tiền vào ví.
+        Raise InvalidAmountError nếu số tiền <= 0.
+        """
         try:
             if amount <= 0:
                 raise InvalidAmountError("Số tiền giao dịch phải lớn hơn 0.")
@@ -29,7 +38,13 @@ class Wallet:
             logging.error(f"InvalidAmountError: Attempted to process {amount} VND.")
             raise e
 
-    def transfer(self, phone, amount):
+    def transfer(self, phone: str, amount: float):
+        """
+        Chuyển tiền tới số điện thoại.
+        Raise InvalidAmountError nếu số tiền <= 0.
+        Raise InsufficientBalanceError nếu số dư không đủ.
+        Raise ValueError nếu số điện thoại không hợp lệ.
+        """
         try:
             if amount <= 0:
                 raise InvalidAmountError("Số tiền giao dịch phải lớn hơn 0.")
@@ -52,6 +67,9 @@ class Wallet:
             raise e
 
     def get_balance(self):
+        """
+        Trả về số dư hiện tại của ví.
+        """
         try:
             logging.info(f"Balance checked. Current Balance: {self.balance}")
             return self.balance
@@ -61,6 +79,7 @@ class Wallet:
 
 
 def display_menu():
+    """In ra menu CLI cho người dùng."""
     print("========== VÍ MOMO GIẢ LẬP ==========")
     print("1. Nạp tiền vào ví")
     print("2. Chuyển tiền")
@@ -70,6 +89,7 @@ def display_menu():
 
 
 def main():
+    """Hàm main chạy vòng lặp CLI."""
     wallet = Wallet()
     while True:
         display_menu()
