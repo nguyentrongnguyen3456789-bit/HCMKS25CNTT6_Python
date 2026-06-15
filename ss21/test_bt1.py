@@ -18,5 +18,10 @@ class TestWallet(unittest.TestCase):
         with self.assertRaises(InvalidAmountError):
             self.wallet.deposit(-100)
 
+    def test_value_error_phone(self):
+        self.wallet.deposit(1000)
+        with self.assertRaises(ValueError):
+            self.wallet.transfer("abc", 100)
+
 if __name__ == "__main__":
     unittest.main()
