@@ -1,13 +1,18 @@
 import logging
+
+# cấu hình logging ra terminal
 logging.basicConfig(
     level=logging.INFO,
     format="%(asctime)s - %(levelname)s - %(message)s"
 )
 
+# custom exceptions
 class ItemNotFoundError(Exception):
+    """Raised when the drink code does not exist in menu."""
     pass
 
 class InvalidQuantityError(Exception):
+    """Raised when the quantity is <= 0."""
     pass
 
 
@@ -21,12 +26,19 @@ current_order = []
 
 
 def view_menu():
+    """In ra thực đơn Highlands Coffee với mã, tên và giá tiền."""
     print("--- THỰC ĐƠN HIGHLANDS COFFEE ---")
     for code, item in DRINK_MENU.items():
         print(f"[{code}] - {item['name']} - {item['price']:,} VNĐ")
 
 
 def add_to_order(drink_code, quantity):
+    """
+    Thêm món vào giỏ hàng.
+    Raise ItemNotFoundError nếu mã không tồn tại.
+    Raise InvalidQuantityError nếu số lượng <= 0.
+    Raise ValueError nếu nhập chữ thay vì số.
+    """
     try:
         code = drink_code.strip().upper()
         if code not in DRINK_MENU:
@@ -42,15 +54,19 @@ def add_to_order(drink_code, quantity):
     except ValueError:
         logging.error("ValueError - Invalid quantity input")
         print("Vui lòng nhập số lượng là một số nguyên!")
+        raise
     except ItemNotFoundError as e:
         logging.warning(f"ItemNotFoundError - {e}")
         print("Mã đồ uống không hợp lệ, vui lòng kiểm tra lại thực đơn!")
+        raise
     except InvalidQuantityError as e:
         logging.warning(f"InvalidQuantityError - {e}")
         print("Số lượng phải lớn hơn 0!")
+        raise
 
 
 def view_order():
+    """In ra giỏ hàng hiện tại và tính tổng tiền. Trả về tổng tiền."""
     if not current_order:
         print("Giỏ hàng trống, vui lòng chọn món (Chức năng 2).")
         return 0
@@ -73,6 +89,7 @@ def view_order():
 
 
 def checkout():
+    """Xác nhận thanh toán, ghi log và làm rỗng giỏ hàng nếu thành công."""
     if not current_order:
         print("Giỏ hàng trống, vui lòng chọn món (Chức năng 2).")
         return
@@ -90,6 +107,7 @@ def checkout():
 
 
 def main():
+    """Hàm main chạy vòng lặp CLI."""
     while True:
         print("========== HIGHLANDS MINI POS ==========")
         print("1. Xem thực đơn")
@@ -108,8 +126,11 @@ def main():
                 try:
                     qty = int(input("Nhập số lượng: "))
                 except ValueError:
-                    qty = "abc"  
-                add_to_order(code, qty)
+                    qty = "abc"  # để raise ValueError trong add_to_order
+                try:
+                    add_to_order(code, qty)
+                except Exception:
+                    pass
             case "3":
                 view_order()
             case "4":
