@@ -29,7 +29,7 @@ class Spellblade(Warrior, MagicalStance):
 class VolcanoZone:
     def activate_buff(self, character):
         print(
-            "\n[Duck Typing]: Xác thực môi trường trận đấu thành công!"
+            "[Duck Typing]: Xác thực môi trường trận đấu thành công!"
         )
         print(
             "[Volcano Zone Effect]: "
@@ -65,24 +65,19 @@ def create_hero():
                     cls.__name__
                 )
         print(
-            "[MRO Architecture]:",
-            " -> ".join(mro_list)
-        )
+            "[MRO Architecture]:"," -> ".join(mro_list))
         print(
             f"[Overloading __add__]: "
             f"Tổng HP tích lũy khi gộp đội hình: "
             f"{current_hero + current_hero}"
         )
     except ValueError:
-        print(
-            "Dữ liệu không hợp lệ!"
-        )
+        print("Dữ liệu không hợp lệ!")
 def battle():
     global current_hero
     if current_hero is None:
         print(
-            "Vui lòng khởi tạo nhân vật trước!"
-        )
+            "Vui lòng khởi tạo nhân vật trước!")
         return
     damage = current_hero.attack_enemy()
     print(
@@ -94,7 +89,7 @@ def battle():
         volcano,
         current_hero
     )
-def show_menu():
+def menu():
     print("\n===== RPG GAME CORE MENU =====")
     print("1. Khởi tạo Ma kiếm sĩ Spellblade & Xem cấu trúc MRO")
     print("2. Ra lệnh tấn công & kích hoạt chiến trường (Duck Typing)")
@@ -102,8 +97,8 @@ def show_menu():
 
 def main():
     while True:
-        show_menu()
-        choice = input("Chọn chức năng (0-2): ")
+        menu()
+        choice = input("Chọn chức năng bạn muốn: ")
         match choice:
             case "1":
                 create_hero()
